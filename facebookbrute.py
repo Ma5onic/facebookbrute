@@ -7,6 +7,7 @@ import time
 import os
 import ConfigParser
 from pathlib import Path
+from multiprocessing import Process
 from bs4 import BeautifulSoup
 from lazyme.string import color_print
 
@@ -43,8 +44,13 @@ def def_config ():
 	if username == 'username' and dic_path == 'wordlist':
 		color_print("\n\n[!] You need to setup the config file", color='red')
 		return 1
-	
-	def_login()
+
+	else:
+		def_parrell(def_login)
+
+def def_parrell(f):
+	p = Process(target=f)
+	p.start()
 
 # Crack the password.
 def def_login():
