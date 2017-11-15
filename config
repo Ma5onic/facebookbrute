@@ -5,3 +5,7 @@ user=username
 
 ## The wordlist ##
 dict=wordlist
+
+## DEBUG? ##
+debug=False
+
