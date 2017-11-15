@@ -6,22 +6,21 @@ How To Download facebookbrute
 git clone https://github.com/ethicalhackingplayground/facebookbrute.git
 
 
-Some Minor Changes
+Some Changes That Might Be Needed
 ------------------------------
 You might need to add nameserver 8.8.8.8 to /etc/resolv.conf 
-
 
 How To Install facebookbrute
 ------------------------------
 To install facebookbrute all you need to do is run this command
 
-chmod +x setup.py && ./setup.py && chmod +x facebookbrute.py
+-- chmod +x setup.py && ./setup.py && chmod +x facebookbrute.py
 
-Now you need to setup the config file, so you need to specify the username and a wordlist,
+Now you need to setup the config file you need to specify the username and a wordlist,
 after that you can type.
 
-./facebookbrute.py
+-- ./facebookbrute.py
 
-And it will crack the password
+And it will attempt to crack the password
 
 Enjoy!!
