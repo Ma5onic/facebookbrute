@@ -23,5 +23,5 @@ after that you can type.
 
 And it will attempt to crack the password
 
-This has only been test in Kali Linux
+This has only been tested in Kali Linux
 Enjoy!!
