@@ -1,5 +1,7 @@
 #!/usr/bin/python
-
+# Title: facebookbrute
+# Author: Th3J0k3r
+#
 import mechanize
 import time
 import os
