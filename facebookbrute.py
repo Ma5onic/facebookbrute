@@ -102,7 +102,7 @@ def def_setup():
 		browser.open(url)
 		browser.select_form(nr = 0)
 	except urllib2.URLError, e:
-		color_print("Try resetting your network interface" + e)
+				color_print("[!] Stopped!!! something went wrong? Try resetting your network interface", e, color='red')
 
 #
 # MultiProcessing to speed up the crack
@@ -139,7 +139,7 @@ def def_login():
 			try:
  				request = browser.submit()
 			except urllib2.URLError, e:
-				color_print("Try resetting your network interface" + e)
+				color_print("[!] Stopped!!! something went wrong? Try resetting your network interface", e, color='red')
 			
 
 			# Declare a BeautifulSoup Object.
