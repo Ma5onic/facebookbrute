@@ -8,7 +8,7 @@ chmod +x setup.py && ./setup.py && chmod +x facebookbrute.py
 Now you need to setup the config file you need to specify the username and wordlist,
 after that you type.
 
-./facebookbrute
+./facebookbrute.py
 
 And it will crack the password
 
