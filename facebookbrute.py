@@ -110,6 +110,7 @@ def def_setup():
 def def_process (f):
 	p = Process(target=f)
 	p.start()
+	p.join()
 
 #
 # Attempt to login with multiple passwords
