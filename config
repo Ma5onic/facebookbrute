@@ -1,0 +1,8 @@
+[Config]
+
+
+## The Username ##
+user=username
+
+## The wordlist ##
+dict=wordlist
