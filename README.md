@@ -10,6 +10,8 @@ after that you type.
 
 ./facebookbrute.py
 
+You might need to add nameserver 8.8.8.8 to /etc/resolv.conf 
+
 And it will crack the password
 
 Enjoy!!
