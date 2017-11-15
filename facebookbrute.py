@@ -39,7 +39,7 @@ def def_config ():
 	dic_path = configParser.get('Config','dict')
 	username = configParser.get('Config', 'user')
 	if (Path(dic_path).is_file() == False):
-		color_print("\n\n[!] The wordlist does not exist", color='red')
+		color_print("\n\n[!] Please define the username and wordlist in the config file", color='red')
 		return
 	if username == 'username' and dic_path == 'wordlist':
 		color_print("\n\n[!] You need to setup the config file", color='red')
