@@ -94,7 +94,7 @@ def def_setup():
 			color_print("\n\n[+] Connection to server successfull", color='green')
 	else:
 			color_print("[!]  Connection to server failed", color='red')
-			returns
+			return
 
 	# Setup the proxy.
 	#proxy = urllib2.ProxyHandler({'http': '127.0.0.1:1234'})
