@@ -96,15 +96,15 @@ def def_setup():
 			returns
 
 	# Setup the proxy.
-	#proxy = urllib2.ProxyHandler({'http': '127.0.0.1:1234'})
-	#opener = urllib2.build_opener(proxy)
-	#urllib2.install_opener(opener)
+	proxy = urllib2.ProxyHandler({'http': '127.0.0.1:1234'})
+	opener = urllib2.build_opener(proxy)
+	urllib2.install_opener(opener)
 
 	# Check if we have setup a proxy.
-	#isProxy = raw_input("Please setup your proxy on http://127.0.0.1:1234 Type [Y]: ")
-	#if isProxy == 'Y' or isProxy == 'y' or isProxy == 'yes' or isProxy == 'Yes':
+	isProxy = raw_input("Please setup your proxy on http://127.0.0.1:1234 Type [Y]: ")
+	if isProxy == 'Y' or isProxy == 'y' or isProxy == 'yes' or isProxy == 'Yes':
 
-	#	color_print("[+] Proxy setup on http://127.0.0.1:1234", color='green')
+		color_print("[+] Proxy setup on http://127.0.0.1:1234", color='green')
 
 	# Set the socket timeout.
 	mechanize._sockettimeout._GLOBAL_DEFAULT_TIMEOUT = 100
@@ -158,7 +158,7 @@ def def_login():
 	with open(dic_path) as fp:
 		line = fp.readline()
 	   	while line:
-	
+			
 			if (internet_on() == True):
 					color_print("[+] Connection to server successfull", color='green')
 			else:
