@@ -11,11 +11,11 @@ To install facebookbrute all you need to do is run this command
 
 cd facebookbrute/ && chmod +x setup.py && ./setup.py && chmod +x facebookbrute.py 
 
-Now you need to setup the config file you need to specify the username and a wordlist.
-
 Setting it up
 ------------------------------
 You might need to add nameserver 8.8.8.8 to /etc/resolv.conf 
+
+Now you need to setup the config file you need to specify the username and a wordlist.
 
 facebookbrute runs on a proxy so open up firefox and change the proxy to 127.0.0.1 on port 1234
 
