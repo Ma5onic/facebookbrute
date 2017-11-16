@@ -19,6 +19,9 @@ Now you need to setup the config file you need to specify the username and a wor
 
 facebookbrute runs on a proxy so open up firefox and change the proxy to 127.0.0.1 on port 1234
 
+Sometimes you need a vpn here's how you setup openvpn in Kali
+https://medium.com/@fad3/setting-up-private-internet-access-vpn-on-kali-linux-9de242812000
+
 Crack the password
 -----------------------------
 Now run,
