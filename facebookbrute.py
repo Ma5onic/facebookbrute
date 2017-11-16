@@ -84,7 +84,7 @@ def internet_on():
         return True
     except OSError:
         pass
-    return False
+   	return False
 #
 # Setup the browser.
 #
