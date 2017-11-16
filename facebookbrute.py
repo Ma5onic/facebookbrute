@@ -89,10 +89,10 @@ def internet_on():
 def def_setup():
 
 	if (internet_on() == True):
-			color_print("[+] Connection to server successfull", color='green')
+			color_print("\n\n[+] Connection to server successfull", color='green')
 	else:
 			color_print("[!]  Connection to server failed", color='red')
-			return
+			returns
 
 	# Setup the proxy.
 	proxy = urllib2.ProxyHandler({'http': '127.0.0.1:1234'})
@@ -111,6 +111,7 @@ def def_setup():
 	# Setup Mechanize
 	global browser
 	browser = mechanize.Browser()
+
 	browser.set_handle_robots(False)
 	cookies = mechanize.CookieJar()
 	browser.set_cookiejar(cookies)
@@ -131,6 +132,7 @@ def def_setup():
 	url = 'http://www.facebook.com/login.php'
 	browser.open(url)
 	browser.select_form(nr = 0)
+
 
 #
 # MultiProcessing to speed up the crack
