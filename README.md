@@ -29,7 +29,7 @@ Now you need to setup the config file you need to specify the username and a wor
 A VPN might help in some cases.
 
 
-**https://securitykiss.com/*
+**https://securitykiss.com/**
 
 
 Crack the password
