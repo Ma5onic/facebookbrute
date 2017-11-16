@@ -26,7 +26,7 @@ Setting it up
 
 Now you need to setup the config file you need to specify the username and a wordlist.
 
-You might need a vpn here's how you setup openvpn in Kali
+A VPN might help in some cases.
 
 
 **https://medium.com/@fad3/setting-up-private-internet-access-vpn-on-kali-linux-9de242812000**
