@@ -6,9 +6,11 @@ How To Download facebookbrute
 git clone https://github.com/ethicalhackingplayground/facebookbrute.git
 
 
-Some Changes That Might Be Needed
+Setting it up
 ------------------------------
 You might need to add nameserver 8.8.8.8 to /etc/resolv.conf 
+
+facebookbrute runs on a proxy so open up firefox and change the proxy to 127.0.0.1 on port 1234
 
 How To Install facebookbrute
 ------------------------------
