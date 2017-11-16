@@ -21,10 +21,11 @@ facebookbrute runs on a proxy so open up firefox and change the proxy to 127.0.0
 
 Crack the password
 -----------------------------
-Now run and will attempt to crack the password
+Now run,
 
 ./facebookbrute.py 
 
+and will attempt to crack the password
 
 This has only been tested in Kali Linux
 Enjoy!!
