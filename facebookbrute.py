@@ -196,7 +196,7 @@ def def_login():
 			color_print(action, color='red')
 			print("[!] Wrong password")
 			browser.select_form(nr = 0)
-
+			time.sleep(0.1)
 			continue	
 		else:
 
@@ -217,6 +217,7 @@ def def_login():
 			saveCreds.close()
 			break
 
+		time.sleep(0.1)
 		browser.select_form(nr = 0)
 			
 			
