@@ -124,7 +124,7 @@ def def_setup():
 	browser.set_handle_refresh(True)
 	browser.set_handle_refresh(mechanize._http.HTTPRefreshProcessor(), max_time=1)
 		
-	# Check the config file to see if debugging is turned on.
+	# Check if the config file has debugging turned on.
 	isDebugging = configParser.get('Config', 'debug')
 	if isDebugging == 'True':
 		# Want debugging messages?
@@ -163,11 +163,7 @@ def def_login():
 	browser.form['email'] = configParser.get('Config', 'user')
 	
 	for line in fileinput.input(dic_path):
-		if (internet_on() == True):
-				color_print("[+] Connection to server successfull", color='green')
-		else:
-				color_print("[!]  Connection to server failed", color='red')
-				break
+
 		# This is the current password in the dictionary 
 		# that we attempt to login with
 		#
@@ -204,7 +200,10 @@ def def_login():
 			continue	
 		else:
 
+			#
 			# SUCCESS PASSWORD FOUND, YEY!!
+			#
+			#
 			username = configParser.get('Config', 'user')	
 
 			# Print out the credentials
