@@ -94,6 +94,17 @@ def def_setup():
 			color_print("[!]  Connection to server failed", color='red')
 			return
 
+	# Setup the proxy.
+	proxy = urllib2.ProxyHandler({'http': '127.0.0.1:1234'})
+	opener = urllib2.build_opener(proxy)
+	urllib2.install_opener(opener)
+
+	# Check if we have setup a proxy.
+	isProxy = raw_input("Please setup your proxy on http://127.0.0.1:1234 Type [Y]: ")
+	if isProxy == 'Y' or isProxy == 'y' or isProxy == 'yes' or isProxy == 'Yes':
+
+		color_print("[+] Proxy setup on http://127.0.0.1:1234", color='green')
+
 	# Set the socket timeout.
 	mechanize._sockettimeout._GLOBAL_DEFAULT_TIMEOUT = 100
 
@@ -116,13 +127,10 @@ def def_setup():
 		browser.set_debug_responses(True)
 
 
-	# Catch any URLErrors when opening the page.
+	# Open up the facebook page.
 	url = 'http://www.facebook.com/login.php'
-	try:
-		browser.open(url)
-		browser.select_form(nr = 0)
-	except urllib2.URLError, e:
-				color_print("[!] Stopped!!! something went wrong? Try resetting your network interface", e, color='red')
+	browser.open(url)
+	browser.select_form(nr = 0)
 
 #
 # MultiProcessing to speed up the crack
