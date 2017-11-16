@@ -13,7 +13,7 @@ cd facebookbrute/ && chmod +x setup.py && ./setup.py && chmod +x facebookbrute.p
 
 Setting it up
 ------------------------------
-** You might need to add nameserver 8.8.8.8 to /etc/resolv.conf 
+""You might need to add nameserver 8.8.8.8 to /etc/resolv.conf""
 
 Now you need to setup the config file you need to specify the username and a wordlist.
 
