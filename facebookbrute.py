@@ -69,11 +69,9 @@ def config ():
 		# Start the crack
 		#
 		setup()
-		threads = []
-		for i in range(5):
-    			t = threading.Thread(target=login)
-   			threads.append(t)
-    			t.start()
+		threading(login)
+
+
 
 
 #
@@ -162,11 +160,11 @@ def printPercentage (line):
 #
 # Use threading and queuing to speed up the crack
 #
-#def threading (f):
- #   q = Queue()
- #   p = Process(target=f)
- #   p.start()
- #   p.join()
+def threading (f):
+	threads = []
+    	t = Thread(target=f)
+   	threads.append(t)
+    	t.start()
 
 #
 # Attempt to login with multiple passwords
