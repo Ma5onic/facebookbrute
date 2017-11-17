@@ -1,7 +1,7 @@
 # facebookbrute
 Brute forces facebook accounts
 
-![facebookbrute outout]({{site.baseurl}}/https://hackingplayground.files.wordpress.com/2017/11/bruteforcing_a_password.png)
+![facebookbrute output]({{site.baseurl}}//bruteforcing_a_password.PNG)
 
 
 How To Download facebookbrute
