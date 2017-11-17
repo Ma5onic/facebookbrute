@@ -156,7 +156,7 @@ def printPercentage (line):
 	# print the percentage done
 	num_lines = sum(1 for line in open(dic_path))
 	percentcalc = (line / float(num_lines)) * 100
- 	percentdone = round(percentcalc, 4)
+ 	percentdone = round(percentcalc, 2)
 	print "\n" + str(percentdone) + "%" + " Completed"
 
 #
@@ -166,7 +166,6 @@ def threading (f):
     q = Queue()
     p = Process(target=f)
     p.start()
-    print(q.get())    # prints "[42, None, 'hello']"
     p.join()
 
 #
