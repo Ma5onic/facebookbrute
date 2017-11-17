@@ -143,12 +143,8 @@ def setup():
 
 	# Open up the facebook page.
 	url = 'http://www.facebook.com/login.php'
-	try:
-		browser.open(url, timeout=1)
-		browser.select_form(nr = 0)
-	except urllib2.URLError as e:
-		color_print("[!] Stopped!!! something went wrong? Try resetting your network interface", e.code, color='red')
-		return
+	browser.open(url, timeout=1)
+	browser.select_form(nr = 0)
 			
 			
 
