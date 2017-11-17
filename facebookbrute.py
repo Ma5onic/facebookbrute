@@ -15,7 +15,7 @@ import ConfigParser
 import urllib2
 import socket
 import fileinput
-from multiprocessing import Process,Queue
+from threading import Thread
 from pathlib import Path
 from bs4 import BeautifulSoup
 from lazyme.string import color_print
@@ -69,7 +69,11 @@ def config ():
 		# Start the crack
 		#
 		setup()
-		threading(login)
+		threads = []
+		for i in range(5):
+    			t = threading.Thread(target=login)
+   			threads.append(t)
+    			t.start()
 
 
 #
@@ -158,11 +162,11 @@ def printPercentage (line):
 #
 # Use threading and queuing to speed up the crack
 #
-def threading (f):
-    q = Queue()
-    p = Process(target=f)
-    p.start()
-    p.join()
+#def threading (f):
+ #   q = Queue()
+ #   p = Process(target=f)
+ #   p.start()
+ #   p.join()
 
 #
 # Attempt to login with multiple passwords
