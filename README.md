@@ -28,8 +28,6 @@ Setting it up
 
 Now you need to setup the config file you need to specify the username and a wordlist.
 
-A VPN might help in some cases.
-
 Crack the password
 -----------------------------
 
@@ -41,8 +39,10 @@ Now run,
 
 and will attempt to crack the password
 
-if you need a wordlist try this tool it's really good
+if you need a wordlist try this really useful tool.
 > https://github.com/berzerk0/BEWGor
+
+A VPN might help in some cases.
 
 This has only been tested in Kali Linux
 Enjoy!!
