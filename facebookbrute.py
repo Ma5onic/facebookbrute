@@ -92,9 +92,9 @@ def internet_on():
 # Sets a random user agent.
 #
 def random_user_agent(browser, agents):
-	random_user_agent = choice(agents)
-	browser.addheaders = [('User-agent', random_user_agent)]
-	color_print("[+] Using random user agent " + random_user_agent, color='blue')
+	user_agent = choice(agents)
+	browser.addheaders = [('User-agent', user_agent)]
+	color_print("[+] Using random user agent " + user_agent, color='blue')
 
 #
 # Setup the browser.
@@ -165,7 +165,6 @@ def threading (f):
     	t = Thread(target=f)
    	threads.append(t)
     	t.start()
-
 #
 # Attempt to login with multiple passwords
 #
