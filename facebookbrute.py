@@ -157,7 +157,7 @@ def printPercentage (line):
 	num_lines = sum(1 for line in open(dic_path))
 	percentcalc = (line / float(num_lines)) * 100
  	percentdone = round(percentcalc, 2)
-	print "\n" + str(percentdone) + "%" + " Completed"
+	print "\n" + "Crack " + str(percentdone) + "%" + " Completed"
 
 #
 # Use threading and queuing to speed up the crack
