@@ -43,5 +43,8 @@ Now run,
 
 and will attempt to crack the password
 
+> **if you need a wordlist try and use this tool it's really good**
+> ** https://github.com/berzerk0/BEWGor**
+
 This has only been tested in Kali Linux
 Enjoy!!
